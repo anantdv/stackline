@@ -1,0 +1,177 @@
+/**
+ * v2 ops-page tours (gate / scanning-bay / fleet) — authoring contract per
+ * guide.md §5. The registry in `tours.ts` is scaffold-owned; the integrator
+ * merges OPS_TOURS into TOURS (same Tour type, same keyed-by-route shape).
+ */
+import type { Tour } from "@/components/guide/tours";
+
+export const OPS_TOURS: Record<string, Tour> = {
+  "/gate": {
+    id: "tour-gate",
+    route: "/gate",
+    label: "Gate & Yard Control",
+    estSeconds: 75,
+    steps: [
+      {
+        target: '[data-tour="ops-board"]',
+        fallback: "main section:nth-of-type(2)",
+        step: 1,
+        title: "Read the ops board",
+        body: "Three lanes — in, yard, out — with live wait times. The top IN entry flashing orange is at the booth right now.",
+        placement: "top",
+        tryIt: "Click GATE OUT on a departure row to stamp a pass out.",
+      },
+      {
+        target: '[data-tour="pass-lifecycle"]',
+        fallback: "main section:nth-of-type(3)",
+        step: 2,
+        title: "Follow one gate pass",
+        body: "Scroll the rail and watch the printed pass fill in — checklist ticks, dock stamp, weighbridge reading, exit QR.",
+        placement: "left",
+      },
+      {
+        target: '[data-tour="security-checks"]',
+        fallback: "main section:nth-of-type(6)",
+        step: 3,
+        title: "Enforce the statutory checks",
+        body: "OUT lanes verify e-way bill validity before the barrier lifts. An expired EWB holds the vehicle and alerts dispatch.",
+        placement: "top",
+      },
+      {
+        target: '[data-tour="dock-schedule"]',
+        fallback: "main section:nth-of-type(4)",
+        step: 4,
+        title: "Schedule docks like a calendar",
+        body: "Every dock is a timeline from 08:00 to 20:00. Click any slot to see its appointment and resequence it.",
+        placement: "top",
+        tryIt: "Click a gantt slot to open its appointment popover.",
+      },
+      {
+        target: '[data-tour="yard-map"]',
+        fallback: "main section:nth-of-type(5)",
+        step: 5,
+        title: "Watch the yard from above",
+        body: "Vehicles glide gate → staging → dock on the live yard plan. The utilization strip follows the same teal-to-red scale as bins.",
+        placement: "top",
+      },
+      {
+        target: '[data-tour="gate-outro"]',
+        fallback: "main section:last-of-type",
+        step: 6,
+        title: "Hand off to the fleet",
+        body: "Once a vehicle gates out, GPS tracking takes over. Continue to Fleet & GPS to watch it move.",
+        placement: "top",
+      },
+    ],
+  },
+
+  "/scanning-bay": {
+    id: "tour-scanbay",
+    route: "/scanning-bay",
+    label: "X-Ray, Dims & Weighing",
+    estSeconds: 70,
+    steps: [
+      {
+        target: '[data-tour="bay-anatomy"]',
+        fallback: "main section:nth-of-type(2)",
+        step: 1,
+        title: "Tour the tunnel anatomy",
+        body: "Four instruments in one pass: induct, x-ray, dimension, weigh. The demo parcel lights each station as it travels.",
+        placement: "top",
+      },
+      {
+        target: '[data-tour="live-console"]',
+        fallback: "main section:nth-of-type(3)",
+        step: 2,
+        title: "Watch a live scan",
+        body: "Every parcel gets a full readout: x-ray density match, captured dimensions and the actual-vs-volumetric billing verdict.",
+        placement: "top",
+        tryIt: "Click REVIEW or CLEAR on a flagged row in RECENT CAPTURES.",
+      },
+      {
+        target: '[data-tour="volumetric-math"]',
+        fallback: "main section:nth-of-type(4)",
+        step: 3,
+        title: "Trust the volumetric math",
+        body: "Drag the sliders and watch chargeable weight recompute. Carriers bill the bigger number — now you see it first.",
+        placement: "top",
+        tryIt: "Drag any L/W/H slider and watch the formula recompute.",
+      },
+      {
+        target: '[data-tour="flag-rules"]',
+        fallback: "main section:nth-of-type(5)",
+        step: 4,
+        title: "Meet the flagging rules",
+        body: "Mismatch, dimension drift, oversize and density anomalies each trigger an automatic verdict — hold, review or re-check.",
+        placement: "top",
+      },
+      {
+        target: '[data-tour="downstream"]',
+        fallback: "main section:nth-of-type(6)",
+        step: 5,
+        title: "Send data downstream",
+        body: "Measured once, used everywhere: captured dims and weights feed bin capacity, load planning and freight invoicing.",
+        placement: "top",
+      },
+    ],
+  },
+
+  "/fleet": {
+    id: "tour-fleet",
+    route: "/fleet",
+    label: "GPS Fleet & Routes",
+    estSeconds: 80,
+    steps: [
+      {
+        target: '[data-tour="live-map"]',
+        fallback: "main section:nth-of-type(2)",
+        step: 1,
+        title: "Read the live map",
+        body: "Chevrons are real vehicles on stylized roads — teal is the optimized path, dashed gray is the actual trail. Divergence is instantly visible.",
+        placement: "top",
+        tryIt: "Click a vehicle chevron to open its drawer.",
+      },
+      {
+        target: '[data-tour="vehicle-drawer"]',
+        fallback: '[data-tour="live-map"]',
+        step: 2,
+        title: "Open a vehicle drawer",
+        body: "Plate, driver, speed, load and the EWB status riding with it — plus the last five GPS pings.",
+        placement: "left",
+      },
+      {
+        target: '[data-tour="route-optimizer"]',
+        fallback: "main section:nth-of-type(3)",
+        step: 3,
+        title: "Optimize the same stops",
+        body: "Naive order zigzags; Stackline re-sequences the loop and cuts roughly a quarter of the kilometers.",
+        placement: "top",
+        tryIt: "Press RUN OPTIMIZER to recompute the route.",
+      },
+      {
+        target: '[data-tour="run-board"]',
+        fallback: "main section:nth-of-type(4)",
+        step: 4,
+        title: "Run both directions",
+        body: "Outward dispatch and inward supplier pickups share the same vehicles — backhaul fills the empty return legs.",
+        placement: "top",
+      },
+      {
+        target: '[data-tour="eta-driver"]',
+        fallback: "main section:nth-of-type(5)",
+        step: 5,
+        title: "Tick ETAs, assign drivers",
+        body: "ETAs count down and recolor when traffic slips them. Drag a driver card onto a vehicle row to assign the trip.",
+        placement: "top",
+      },
+      {
+        target: '[data-tour="geofence"]',
+        fallback: "main section:nth-of-type(6)",
+        step: 6,
+        title: "Close the loop at the gate",
+        body: "Geofence crossings fire real work — dock reserved at 2km, gate pass ready at 500m. The feed hands off to /gate.",
+        placement: "top",
+      },
+    ],
+  },
+};

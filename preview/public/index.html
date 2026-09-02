@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#0B0E12" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Stackline Floor" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    <title>Stackline — Visual Warehouse OS for ERPNext</title>
+    <meta
+      name="description"
+      content="Stackline turns any warehouse into a live 3D digital twin synced with ERPNext. Visual stock movement, bin capacity math, auto-allocation and workflows in one spatial interface."
+    />
+    <meta property="og:title" content="Stackline — See every bin. Move every box." />
+    <meta
+      property="og:description"
+      content="A visual warehouse management system: 3D digital twin natively synced with ERPNext."
+    />
+    <meta property="og:image" content="/og-cover.jpg" />
+    <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" crossorigin src="/assets/index-C_jG1hls.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-DNSsaQDD.css">
+  </head>
+  <body>
+    <script>
+      // Stackline theme boot — runs before first paint to avoid FOUC.
+      // Mirrors src/lib/theme.ts (initialTheme): stored choice → prefers-color-scheme → dark.
+      (function () {
+        try {
+          var t = localStorage.getItem("stackline-theme");
+          if (t !== "light" && t !== "dark") {
+            t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+          }
+          document.documentElement.dataset.theme = t;
+          document.documentElement.classList.toggle("dark", t === "dark");
+        } catch (e) {
+          document.documentElement.dataset.theme = "dark";
+        }
+      })();
+    </script>
+    <div id="root"></div>
+  </body>
+</html>

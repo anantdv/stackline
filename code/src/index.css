@@ -1,0 +1,372 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /*
+   * Stackline design tokens.
+   * Dark ("Control Room") is the brand default and lives on :root.
+   * Light ("Daylight Ops") overrides every token under [data-theme="light"].
+   * [data-theme="dark"] re-asserts the dark set so the footer (and any other
+   * deliberate dark "anchor" surface) can stay dark inside light mode.
+   *
+   * Solid colors are exposed twice:
+   *   --bg-page     → full color value (direct var() use, JS/R3F reads)
+   *   --rgb-page    → "R G B" channels (Tailwind colors with <alpha-value>)
+   */
+  :root,
+  [data-theme="dark"] {
+    --bg-void: #07090c;
+    --bg-page: #0b0e12;
+    --bg-surface: #12161c;
+    --bg-raised: #1a2029;
+    --line: rgba(148, 163, 184, 0.14);
+    --line-strong: rgba(148, 163, 184, 0.3);
+    --text-0: #f4f7fa;
+    --text-1: #9aa7b5;
+    --text-2: #5c6773;
+    --accent: #ff6b1a;
+    --accent-hover: #ff8a45;
+    --accent-soft: rgba(255, 107, 26, 0.12);
+    --data: #2dd4bf;
+    --data-soft: rgba(45, 212, 191, 0.1);
+    --warn: #ffb020;
+    --crit: #f4504e;
+
+    --rgb-void: 7 9 12;
+    --rgb-page: 11 14 18;
+    --rgb-surface: 18 22 28;
+    --rgb-raised: 26 32 41;
+    --rgb-text-0: 244 247 250;
+    --rgb-text-1: 154 167 181;
+    --rgb-text-2: 92 103 115;
+    --rgb-accent: 255 107 26;
+    --rgb-accent-hover: 255 138 69;
+    --rgb-data: 45 212 191;
+    --rgb-warn: 255 176 32;
+    --rgb-crit: 244 80 78;
+
+    /* v2 theme tokens */
+    --grid-line: rgba(148, 163, 184, 0.05);
+    --grid-line-major: rgba(148, 163, 184, 0.09);
+    --scrim: linear-gradient(90deg, rgba(7, 9, 12, 0.92), transparent);
+    --guide-dim: rgba(4, 6, 9, 0.62);
+    --nav-bg: rgba(11, 14, 18, 0.72);
+    --on-accent: #0b0e12;
+    --selection: rgba(255, 107, 26, 0.25);
+    --card-shadow: none;
+    --card-shadow-hover: none;
+
+    /* shadcn bridge (dark theme as default) */
+    --background: 216 24% 5.5%;
+    --foreground: 210 33% 97%;
+    --card: 217 24% 9%;
+    --card-foreground: 210 33% 97%;
+    --popover: 217 24% 9%;
+    --popover-foreground: 210 33% 97%;
+    --primary: 22 100% 55%;
+    --primary-foreground: 216 24% 5.5%;
+    --secondary: 217 19% 13%;
+    --secondary-foreground: 210 33% 97%;
+    --muted: 217 19% 13%;
+    --muted-foreground: 215 15% 66%;
+    /* shadcn's own accent (menu hover surfaces) — renamed from --accent so it
+       no longer shadows Stackline's orange --accent token */
+    --sh-accent: 217 19% 13%;
+    --sh-accent-foreground: 210 33% 97%;
+    --destructive: 1 84% 63%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 215 19% 24%;
+    --input: 215 19% 24%;
+    --ring: 22 100% 55%;
+    --radius: 0.625rem;
+    --sidebar-background: 216 24% 5.5%;
+    --sidebar-foreground: 210 33% 97%;
+    --sidebar-primary: 22 100% 55%;
+    --sidebar-primary-foreground: 216 24% 5.5%;
+    --sidebar-accent: 217 19% 13%;
+    --sidebar-accent-foreground: 210 33% 97%;
+    --sidebar-border: 215 19% 24%;
+    --sidebar-ring: 22 100% 55%;
+  }
+
+  /* Daylight Ops — light theme (theme.md §1 authoritative mapping) */
+  [data-theme="light"] {
+    --bg-void: #e4e9ee;
+    --bg-page: #f2f5f8;
+    --bg-surface: #ffffff;
+    --bg-raised: #e9eef3;
+    --line: rgba(15, 23, 42, 0.1);
+    --line-strong: rgba(15, 23, 42, 0.24);
+    --text-0: #10151c;
+    --text-1: #4a5563;
+    --text-2: #8a94a0;
+    --accent: #e85a0c;
+    --accent-hover: #ff6b1a;
+    --accent-soft: rgba(232, 90, 12, 0.1);
+    --data: #0d9488;
+    --data-soft: rgba(13, 148, 136, 0.1);
+    --warn: #b45309;
+    --crit: #dc2626;
+
+    --rgb-void: 228 233 238;
+    --rgb-page: 242 245 248;
+    --rgb-surface: 255 255 255;
+    --rgb-raised: 233 238 243;
+    --rgb-text-0: 16 21 28;
+    --rgb-text-1: 74 85 99;
+    --rgb-text-2: 138 148 160;
+    --rgb-accent: 232 90 12;
+    --rgb-accent-hover: 255 107 26;
+    --rgb-data: 13 148 136;
+    --rgb-warn: 180 83 9;
+    --rgb-crit: 220 38 38;
+
+    --grid-line: rgba(15, 23, 42, 0.05);
+    --grid-line-major: rgba(15, 23, 42, 0.09);
+    --scrim: linear-gradient(90deg, rgba(242, 245, 248, 0.94), transparent);
+    --guide-dim: rgba(226, 232, 240, 0.66);
+    --nav-bg: rgba(242, 245, 248, 0.72);
+    --on-accent: #ffffff;
+    --selection: rgba(232, 90, 12, 0.18);
+    --card-shadow:
+      0 1px 2px rgba(15, 23, 42, 0.05), 0 8px 24px rgba(15, 23, 42, 0.06);
+    --card-shadow-hover:
+      0 1px 3px rgba(15, 23, 42, 0.07), 0 11px 34px rgba(15, 23, 42, 0.084);
+
+    /* shadcn bridge — light */
+    --background: 210 30% 96%;
+    --foreground: 215 28% 9%;
+    --card: 0 0% 100%;
+    --card-foreground: 215 28% 9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 28% 9%;
+    --primary: 22 93% 48%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 24% 93%;
+    --secondary-foreground: 215 28% 9%;
+    --muted: 210 24% 93%;
+    --muted-foreground: 213 14% 34%;
+    --sh-accent: 210 24% 93%;
+    --sh-accent-foreground: 215 28% 9%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 214 14% 82%;
+    --input: 214 14% 82%;
+    --ring: 22 93% 48%;
+    --sidebar-background: 210 30% 96%;
+    --sidebar-foreground: 215 28% 9%;
+    --sidebar-primary: 22 93% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 24% 93%;
+    --sidebar-accent-foreground: 215 28% 9%;
+    --sidebar-border: 214 14% 82%;
+    --sidebar-ring: 22 93% 48%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+  body {
+    @apply bg-page text-ink0 font-body antialiased;
+    letter-spacing: -0.01em;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
+  }
+  /* Smooth token swaps on surfaces when the theme flips */
+  header,
+  section,
+  footer,
+  nav,
+  [class*="bg-surface"],
+  [class*="bg-raised"] {
+    transition:
+      background-color 0.3s ease,
+      border-color 0.3s ease;
+  }
+  ::selection {
+    background: var(--selection);
+    color: var(--text-0);
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bg-void);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--bg-raised);
+    border-radius: 8px;
+    border: 2px solid var(--bg-void);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--line-strong);
+  }
+}
+
+@layer components {
+  /* BlueprintCard resting shadow exists in light mode only (theme.md §2) */
+  .blueprint-card {
+    box-shadow: var(--card-shadow);
+  }
+  .blueprint-card:hover {
+    box-shadow: var(--card-shadow-hover);
+  }
+}
+
+@layer utilities {
+  /* Faint blueprint grid: 48px cells, major line every 240px (theme-aware) */
+  .blueprint-grid {
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(var(--grid-line-major) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line-major) 1px, transparent 1px);
+    background-size:
+      48px 48px,
+      48px 48px,
+      240px 240px,
+      240px 240px;
+  }
+  .font-tnum {
+    font-feature-settings: "tnum";
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Custom animation keyframes (global names referenced via arbitrary Tailwind classes) */
+@keyframes ripple {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(6);
+    opacity: 0;
+  }
+}
+@keyframes carton-arc {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    transform: translate(70px, -34px);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(140px, 0);
+    opacity: 0;
+  }
+}
+@keyframes bin-fill {
+  0% {
+    height: 12%;
+  }
+  70% {
+    height: 78%;
+  }
+  85% {
+    height: 78%;
+  }
+  100% {
+    height: 12%;
+  }
+}
+@keyframes node-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(45, 212, 191, 0);
+    border-color: var(--line-strong);
+    color: var(--text-2);
+  }
+  50% {
+    box-shadow: 0 0 16px 2px rgba(45, 212, 191, 0.35);
+    border-color: var(--data);
+    color: var(--data);
+  }
+}
+@keyframes packet-right {
+  0% {
+    left: 0;
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    left: calc(100% - 8px);
+    opacity: 0;
+  }
+}
+@keyframes packet-left {
+  0% {
+    right: 0;
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    right: calc(100% - 8px);
+    opacity: 0;
+  }
+}
+@keyframes route-ping {
+  0%,
+  55%,
+  100% {
+    border-color: var(--line-strong);
+    background: var(--bg-raised);
+  }
+  20%,
+  40% {
+    border-color: var(--data);
+    background: var(--data-soft);
+  }
+}
+@keyframes ticker-flash {
+  0% {
+    background: var(--data-soft);
+  }
+  100% {
+    background: transparent;
+  }
+}
+@keyframes guide-ping {
+  0% {
+    box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(45, 212, 191, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(45, 212, 191, 0);
+  }
+}
+
+@keyframes scanline {
+  0% { top: 12%; }
+  50% { top: 88%; }
+  100% { top: 12%; }
+}
+.animate-scanline { animation: scanline 2.2s ease-in-out infinite; }

@@ -1,0 +1,30 @@
+{
+  "name": "Stackline Floor",
+  "short_name": "Stackline Floor",
+  "description": "Floor-management app for Stackline Visual Warehouse OS \u2014 tasks, scanning, bin lookup.",
+  "id": "/floor-app",
+  "start_url": "/floor-app",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#07090C",
+  "theme_color": "#0B0E12",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
